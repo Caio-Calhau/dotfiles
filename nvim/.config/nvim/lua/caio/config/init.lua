@@ -1,0 +1,1 @@
+require("caio.config.lazy")
