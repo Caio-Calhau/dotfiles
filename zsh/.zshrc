@@ -27,23 +27,6 @@ export HOMEBREW_CELLAR=/bin/brew/Cellar
 # Add /usr/local/bin to the PATH
 export PATH="$PATH:/usr/local/bin"
 
-# Set the Android SDK location
-export ANDROID_HOME="/mnt/c/Users/Caio/AppData/Local/Android/Sdk"
-
-# Add Android SDK platform-tools and tools to the PATH
-export PATH="$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools"
-
-# Set Java home for Android development
-export JAVA_HOME="/usr/lib/jvm/java-17-openjdk-amd64"
-
-# Add Java to the PATH
-export PATH="$JAVA_HOME/bin:$PATH"
-
-export PATH="$PATH:/mnt/c/Users/Caio/AppData/Local/Android/Sdk/platform-tools/adb.exe"
-export PATH=$PATH:/path/to/android-sdk/cmdline-tools/latest/bin
-export ANDROID_HOME="/home/golira/android-sdk"
-export PATH="$PATH:/home/golira/android-sdk/cmdline-tools/latest/bin"
-
 if [ -z "$TMUX" ]; then
     if tmux has-session 2>/dev/null; then
         tmux attach-session -d
