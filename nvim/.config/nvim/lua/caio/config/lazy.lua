@@ -16,5 +16,13 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- Setup lazy.nvim
-require("lazy").setup("caio.plugins")
+require("lazy").setup({ { import = "caio.plugins" }, { import = "caio.plugins.lsp" } }, {
+  checker = {
+    enabled = true,
+    notify = false,
+  },
+  change_detection = {
+    notify = false,
+  }
+})
 

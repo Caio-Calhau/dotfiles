@@ -33,6 +33,7 @@ keymap.set("n", "<Leader>w", ":w<CR>", { desc = "Save file" })
 keymap.set("n", '<Leader>e', '<cmd>Explore<CR>', {desc = 'Open explorer'})
 keymap.set("n", "A-z", ":set wrap!<CR>", { desc = "Toggle line wrapping" })
 keymap.set("n", "<Leader>q", ":q<CR>", { desc = "Quit command" })
+keymap.set("n", "<CR>", ":put ='' <CR>", { noremap = true, silent = true })
 
 keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move line up" })
 keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move line down" })
