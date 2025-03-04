@@ -34,4 +34,3 @@ if [ -z "$TMUX" ]; then
         tmux new-session -s mysession$(($(tmux list-sessions 2>/dev/null | wc -l) + 1))
     fi
 fi
-
