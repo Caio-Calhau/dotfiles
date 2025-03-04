@@ -1,3 +1,5 @@
+vim.cmd("let g:netrw_liststyle = 3")
+
 local opt = vim.opt
 local g = vim.g
 
@@ -6,11 +8,13 @@ opt.number = true       -- Show line numbers
 opt.relativenumber = true -- Relative line numbers
 opt.mouse = "a"         -- Enable mouse
 opt.clipboard = "unnamedplus" -- Use system clipboard
-
+  
 -- Indentation
-opt.tabstop = 2
-opt.shiftwidth = 2
+opt.autoindent = true
 opt.expandtab = true
+opt.shiftwidth = 2
+opt.tabstop = 2
+opt.softtabstop = 2
 opt.smartindent = true
 
 -- Search
