@@ -27,6 +27,8 @@ export HOMEBREW_CELLAR=/bin/brew/Cellar
 # Add /usr/local/bin to the PATH
 export PATH="$PATH:/usr/local/bin"
 
+export PATH="$PATH:/opt/nvim/"
+
 if [ -z "$TMUX" ]; then
     if tmux has-session 2>/dev/null; then
         tmux attach-session -d
