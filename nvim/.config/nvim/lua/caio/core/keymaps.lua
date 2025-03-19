@@ -27,13 +27,18 @@ keymap.set("n", "<leader>tx", "<cmd>tabclose<CR>", { desc = "Close current tab" 
 keymap.set("n", "<leader>tn", "<cmd>tabn<CR>", { desc = "Go to next tab" }) --  go to next tab
 keymap.set("n", "<leader>tp", "<cmd>tabp<CR>", { desc = "Go to previous tab" }) --  go to previous tab
 keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer in new tab" }) --  move current buffer to new tab
-keymap.set("n", "J", "5j", { desc = "5 lines down" })
-keymap.set("n", "K", "5k", { desc = "5 lines up" })
+keymap.set("n", "J", "5jzz", { desc = "5 lines down" })
+keymap.set("n", "K", "5kzz", { desc = "5 lines up" })
 keymap.set("n", "<Leader>w", ":w<CR>", { desc = "Save file" })
 keymap.set("n", '<Leader>e', '<cmd>Explore<CR>', {desc = 'Open explorer'})
 keymap.set("n", "A-z", ":set wrap!<CR>", { desc = "Toggle line wrapping" })
 keymap.set("n", "<Leader>q", ":q<CR>", { desc = "Quit command" })
 keymap.set("n", "<CR>", ":put ='' <CR>", { noremap = true, silent = true })
+keymap.set("n", "j", "jzz")
+keymap.set("n", "j", "jzz")
+keymap.set("n","<C-d>", "<C-d>zz")
+keymap.set("n", "<C-u>", "<C-u>zz")
+
 
 keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move line up" })
 keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move line down" })
