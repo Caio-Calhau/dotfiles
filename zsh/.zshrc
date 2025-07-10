@@ -27,10 +27,3 @@ export HOMEBREW_CELLAR=/bin/brew/Cellar
 # Add /usr/local/bin to the PATH
 export PATH="$PATH:/usr/local/bin"
 
-if [ -z "$TMUX" ]; then
-    if tmux has-session 2>/dev/null; then
-        tmux attach-session -d
-    else
-        tmux new-session -s mysession$(($(tmux list-sessions 2>/dev/null | wc -l) + 1))
-    fi
-fi

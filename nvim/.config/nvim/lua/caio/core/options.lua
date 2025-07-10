@@ -28,7 +28,7 @@ opt.backup = false
 opt.undofile = true
 
 -- Wrap line configuration
-opt.wrap = true 
+opt.wrap = true
 opt.breakindent = true
 
 opt.cursorline = true
