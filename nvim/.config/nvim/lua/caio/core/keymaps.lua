@@ -21,8 +21,8 @@ keymap.set("n", "<leader>tf", "<cmd>tabnew %<CR>", { desc = "Open current buffer
 keymap.set("n", "<Leader>w", ":w<CR>", { desc = "Save file" })
 keymap.set("n", "<Leader>ee", "<cmd>Explore<CR>", { desc = "Open explorer" })
 keymap.set("n", "<CR>", ":put ='' <CR>", { noremap = true, silent = true })
-keymap.set("n", "<A-k>", ":m '<-2<CR>==", { desc = "Move line up" })
-keymap.set("n", "<A-j>", ":m '>+1<CR>==", { desc = "Move line down" })
+keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = "Move line up" })
+keymap.set("n", "<A-j>", ":m .+1<CR>==", { desc = "Move line down" })
 
 keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move line up" })
 keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move line down" })

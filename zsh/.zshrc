@@ -26,4 +26,4 @@ export HOMEBREW_CELLAR=/bin/brew/Cellar
 
 # Add /usr/local/bin to the PATH
 export PATH="$PATH:/usr/local/bin"
-
+export PATH="$PATH:/opt/nvim/bin"
