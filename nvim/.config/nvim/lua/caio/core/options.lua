@@ -1,14 +1,12 @@
--- vim.cmd("let g:netrw_liststyle = 3")
-
 local opt = vim.opt
 local g = vim.g
 
 -- General
-opt.number = true       -- Show line numbers
+opt.number = true -- Show line numbers
 opt.relativenumber = true -- Relative line numbers
-opt.mouse = "a"         -- Enable mouse
+opt.mouse = "a" -- Enable mouse
 opt.clipboard = "unnamedplus" -- Use system clipboard
-  
+
 -- Indentation
 opt.autoindent = true
 opt.expandtab = true
@@ -45,4 +43,3 @@ opt.splitright = true
 opt.splitbelow = true
 
 opt.virtualedit = "onemore"
-
