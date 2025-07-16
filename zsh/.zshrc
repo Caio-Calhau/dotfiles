@@ -9,13 +9,11 @@ fi
 
 source $ZSH/oh-my-zsh.sh
 
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-
 plugins=(
   git
   tmux
+  zsh-autosuggestions
 )
-
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -27,3 +25,5 @@ export HOMEBREW_CELLAR=/bin/brew/Cellar
 # Add /usr/local/bin to the PATH
 export PATH="$PATH:/usr/local/bin"
 export PATH="$PATH:/opt/nvim/bin"
+export PATH="$PATH:/usr/local/go/bin"
+alias lg='lazygit'
