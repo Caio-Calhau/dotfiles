@@ -7,7 +7,7 @@ return {
 				lua = { "stylua" },
 				python = { "isort", "black" },
 				javascript = { "pretierd", "prettier" },
-        typescript = { "prettierd", "prettier" },
+				typescript = { "prettierd", "prettier" },
 			},
 		})
 	end,
