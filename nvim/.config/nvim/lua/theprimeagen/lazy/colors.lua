@@ -20,6 +20,7 @@ return {
 			ColorMyPencils()
 		end,
 	},
+
 	{
 		"ellisonleao/gruvbox.nvim",
 		name = "gruvbox",
@@ -50,6 +51,7 @@ return {
 			})
 		end,
 	},
+
 	{
 		"folke/tokyonight.nvim",
 		config = function()
