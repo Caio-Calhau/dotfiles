@@ -17,8 +17,6 @@ vim.keymap.set("n", "<Leader>w", function()
 	require("conform").format({ bufnr = 0 })
 	vim.cmd("write")
 end)
-vim.keymap.set("n", "<A-j>", ":m '>+1<CR>gv=gv")
-vim.keymap.set("n", "<A-k>", ":m '<-2<CR>gv=gv")
 
 -- greatest remap ever
 vim.keymap.set("x", "<leader>p", [["_dP]])
