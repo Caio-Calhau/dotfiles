@@ -6,7 +6,7 @@ return {
 		"nvim-lua/plenary.nvim",
 	},
 	config = function()
-		local lualine = require("lualine").setup({
+		require("lualine").setup({
 			options = {
 				icons_enabled = true,
 				theme = "auto",
