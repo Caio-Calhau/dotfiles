@@ -1,16 +1,39 @@
 return {
-	"romgrk/barbar.nvin",
+	"romgrk/barbar.nvim",
 	dependencies = {
+		"lewis6991/gitsigns.nvim",
 		"nvim-tree/nvim-web-devicons",
 	},
 	config = function()
 		local map = vim.api.nvim_set_keymap
 		local opts = { noremap = true, silent = true }
 		require("barbar").setup({
+			-- Enables / disables diagnostic symbols
+			animation = false,
+
+			-- Configure the base icons on the bufferline.
+			-- Valid options to display the buffer index and -number are `true`, 'superscript' and 'subscript'
+			buffer_index = false,
+			buffer_number = false,
+			-- Enables / disables diagnostic symbols
+			icons = {
+				diagnostics = {
+					[vim.diagnostic.severity.ERROR] = { enabled = true, icon = "ﬀ" },
+					[vim.diagnostic.severity.WARN] = { enabled = false },
+					[vim.diagnostic.severity.INFO] = { enabled = false },
+					[vim.diagnostic.severity.HINT] = { enabled = true },
+				},
+				gitsigns = {
+					added = { enabled = true, icon = "+" },
+					changed = { enabled = true, icon = "~" },
+					deleted = { enabled = true, icon = "-" },
+				},
+				maximum_length = 10,
+			},
 
 			-- Move to previous/next
-			map("n", "<Tab> ", "<Cmd>BufferPrevious<CR>", opts),
-			map("n", "<S-Tab>", "<Cmd>BufferNext<CR>", opts),
+			map("n", "<A-,>", "<Cmd>BufferPrevious<CR>", opts),
+			map("n", "<A-.>", "<Cmd>BufferNext<CR>", opts),
 
 			-- Re-order to previous/next
 			map("n", "<A-<>", "<Cmd>BufferMovePrevious<CR>", opts),
@@ -31,26 +54,8 @@ return {
 			-- Pin/unpin buffer
 			map("n", "<A-p>", "<Cmd>BufferPin<CR>", opts),
 
-			-- Goto pinned/unpinned buffer
-			--                 :BufferGotoPinned
-			--                 :BufferGotoUnpinned
-
 			-- Close buffer
 			map("n", "<A-c>", "<Cmd>BufferClose<CR>", opts),
-
-			-- Wipeout buffer
-			--                 :BufferWipeout
-
-			-- Close commands
-			--                 :BufferCloseAllButCurrent
-			--                 :BufferCloseAllButPinned
-			--                 :BufferCloseAllButCurrentOrPinned
-			--                 :BufferCloseBuffersLeft
-			--                 :BufferCloseBuffersRight
-
-			-- Other:
-			-- :BarbarEnable - enables barbar (enabled by default)
-			-- :BarbarDisable - very bad command, should never be used
 		})
 	end,
 }
