@@ -6,6 +6,31 @@ local root_files = {
 	"stylua.toml",
 	"selene.toml",
 	"selene.yml",
+	"tsconfig.json",
+	"tsconfig.jsonc",
+	"jsconfig.json",
+	"jsconfig.jsonc",
+	"eslint.config.js",
+	"eslint.config.cjs",
+	"eslint.config.mjs",
+	"eslint.config.json",
+	".eslintrc.js",
+	".eslintrc.cjs",
+	".eslintrc.mjs",
+	".eslintrc.json",
+	".eslintignore",
+	".prettierrc.js",
+	".prettierrc.cjs",
+	".prettierrc.mjs",
+	".prettierrc.json",
+	".prettierignore",
+	".stylelintrc.js",
+	".stylelintrc.cjs",
+	".stylelintrc.mjs",
+	".stylelintrc.json",
+	".stylelintignore",
+	".htmlhintrc",
+	".htmllintrc",
 	".git",
 }
 
@@ -33,12 +58,72 @@ return {
 		local cmp = require("cmp")
 		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+		vim.lsp.enable({
+			"luals",
+			"pyright",
+			"emmet_ls",
+			"jsonls",
+			"tsserver",
+			"cssls",
+			"html",
+			"yamlls",
+			"tailwindcss",
+			"svelte",
+			"rust_analyzer",
+			"bashls",
+			"dockerls",
+			"graphql",
+			"sqlls",
+		})
+
+		vim.lsp.enable("eslint", {
+			cmd = { "eslint_d", "vscode-eslint-language-server", "--stdio" },
+			filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+		})
+
+		vim.diagnostic.config({
+			update_in_insert = true,
+			virtual_text = true,
+			float = {
+				focusable = false,
+				style = "minimal",
+				border = "rounded",
+				source = "always",
+				header = "",
+				prefix = "",
+			},
+		})
+
 		require("fidget").setup({})
-		require("mason").setup()
+		require("mason").setup({
+			ui = {
+				icons = {
+					package_installed = "✓",
+					package_pending = "➜",
+					package_uninstalled = "✗",
+				},
+			},
+		})
+
+		require("mason-tool-installer").setup({
+			ensure_installed = {
+				"stylua",
+				"luacheck",
+				"shellcheck",
+				"shfmt",
+				"prettierd",
+				"prettier",
+				"eslint_d",
+				"eslint",
+				"jsonlint",
+				"yamllint",
+				"markdownlint",
+			},
+		})
+
 		require("mason-lspconfig").setup({
 			ensure_installed = {
 				"ts_ls",
-				"tsserver",
 				"html",
 				"cssls",
 				"tailwindcss",
@@ -71,6 +156,7 @@ return {
 					vim.g.zig_fmt_parse_errors = 0
 					vim.g.zig_fmt_autosave = 0
 				end,
+
 				["lua_ls"] = function()
 					local lspconfig = require("lspconfig")
 					lspconfig.lua_ls.setup({
@@ -92,14 +178,16 @@ return {
 				end,
 
 				["emmet_ls"] = function()
-					-- configure emmet language server
 					local lspconfig = require("lspconfig")
+					-- configure emmet language server
 					lspconfig["emmet_ls"].setup({
 						capabilities = capabilities,
 						filetypes = {
 							"html",
 							"typescriptreact",
 							"javascriptreact",
+							"javascript",
+							"typescript",
 							"css",
 							"sass",
 							"scss",
@@ -110,55 +198,28 @@ return {
 				end,
 			},
 		})
-		require("mason-tool-installer").setup({
-			ensure_installed = {
-				"stylua",
-				"luacheck",
-				"shellcheck",
-				"shfmt",
-				"prettier",
-				"eslint_d",
-				"eslint",
-				"jsonlint",
-				"yamllint",
-				"markdownlint",
-			},
-		})
 
-		local cmp_select = { behavior = cmp.SelectBehavior.Select }
+		-- local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
-		cmp.setup({
-			snippet = {
-				expand = function(args)
-					require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
-				end,
-			},
-			mapping = cmp.mapping.preset.insert({
-				["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
-				["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
-				["<C-y>"] = cmp.mapping.confirm({ select = true }),
-				["<C-Space>"] = cmp.mapping.complete(),
-			}),
-			sources = cmp.config.sources({
-				{ name = "copilot", group_index = 2 },
-				{ name = "nvim_lsp" },
-				{ name = "luasnip" }, -- For luasnip users.
-			}, {
-				{ name = "buffer" },
-			}),
-		})
-
-		vim.diagnostic.config({
-			update_in_insert = true,
-			virtual_text = true,
-			float = {
-				focusable = false,
-				style = "minimal",
-				border = "rounded",
-				source = "always",
-				header = "",
-				prefix = "",
-			},
-		})
+		-- cmp.setup({
+		-- 	snippet = {
+		-- 		expand = function(args)
+		-- 			require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
+		-- 		end,
+		-- 	},
+		-- 	mapping = cmp.mapping.preset.insert({
+		-- 		["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
+		-- 		["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
+		-- 		["<C-y>"] = cmp.mapping.confirm({ select = true }),
+		-- 		["<C-Space>"] = cmp.mapping.complete(),
+		-- 	}),
+		-- 	sources = cmp.config.sources({
+		-- 		-- { name = "copilot", group_index = 2 },
+		-- 		{ name = "nvim_lsp" },
+		-- 		{ name = "luasnip" }, -- For luasnip users.
+		-- 	}, {
+		-- 		{ name = "buffer" },
+		-- 	}),
+		-- })
 	end,
 }
