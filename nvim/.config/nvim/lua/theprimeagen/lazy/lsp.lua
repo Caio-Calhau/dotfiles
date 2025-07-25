@@ -1,39 +1,3 @@
-local root_files = {
-	".luarc.json",
-	".luarc.jsonc",
-	".luacheckrc",
-	".stylua.toml",
-	"stylua.toml",
-	"selene.toml",
-	"selene.yml",
-	"tsconfig.json",
-	"tsconfig.jsonc",
-	"jsconfig.json",
-	"jsconfig.jsonc",
-	"eslint.config.js",
-	"eslint.config.cjs",
-	"eslint.config.mjs",
-	"eslint.config.json",
-	".eslintrc.js",
-	".eslintrc.cjs",
-	".eslintrc.mjs",
-	".eslintrc.json",
-	".eslintignore",
-	".prettierrc.js",
-	".prettierrc.cjs",
-	".prettierrc.mjs",
-	".prettierrc.json",
-	".prettierignore",
-	".stylelintrc.js",
-	".stylelintrc.cjs",
-	".stylelintrc.mjs",
-	".stylelintrc.json",
-	".stylelintignore",
-	".htmlhintrc",
-	".htmllintrc",
-	".git",
-}
-
 return {
 	"neovim/nvim-lspconfig",
 	dependencies = {
@@ -49,13 +13,14 @@ return {
 		"saadparwaiz1/cmp_luasnip",
 		"j-hui/fidget.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
+		"stevanmilic/nvim-lspimport",
 	},
 
 	config = function()
 		require("conform").setup({
 			formatters_by_ft = {},
 		})
-		local cmp = require("cmp")
+		-- local cmp = require("cmp")
 		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 		vim.lsp.enable({

@@ -1,8 +1,7 @@
 return {
-    {
-        "nvim-lua/plenary.nvim",
-    },
+	{
+		"nvim-lua/plenary.nvim",
+	},
 
-    "eandrju/cellular-automaton.nvim",
+	"eandrju/cellular-automaton.nvim",
 }
-
