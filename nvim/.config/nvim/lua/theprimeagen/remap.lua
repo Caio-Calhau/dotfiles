@@ -17,6 +17,7 @@ vim.keymap.set("n", "<Leader>w", function()
 	require("conform").format({ bufnr = 0 })
 	vim.cmd("write")
 end)
+vim.keymap.set("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
 
 -- greatest remap ever
 vim.keymap.set("x", "<leader>p", [["_dP]])

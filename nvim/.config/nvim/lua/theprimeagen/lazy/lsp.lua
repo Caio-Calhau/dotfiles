@@ -164,6 +164,8 @@ return {
 			},
 		})
 
+		vim.keymap.set("n", "<leader>a", require("lspimport").import, { noremap = true })
+
 		-- local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
 		-- cmp.setup({
