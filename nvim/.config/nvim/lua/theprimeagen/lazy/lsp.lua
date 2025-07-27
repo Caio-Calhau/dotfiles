@@ -14,6 +14,7 @@ return {
 		"j-hui/fidget.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		"stevanmilic/nvim-lspimport",
+		"nvimtools/none-ls.nvim",
 	},
 
 	run = "make install_jsregexp",
@@ -53,6 +54,15 @@ return {
 				source = "always",
 				header = "",
 				prefix = "",
+			},
+		})
+
+		local null_ls = require("null-ls")
+
+		null_ls.setup({
+			sources = {
+				null_ls.builtins.formatting.prettierd,
+				null_ls.builtins.formatting.prettier,
 			},
 		})
 
