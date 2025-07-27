@@ -66,6 +66,14 @@ return {
 			},
 		})
 
+		require("lspconfig").eslint.setup({
+			settings = {
+				workingDirectories = {
+					mode = "auto",
+				},
+			},
+		})
+
 		require("fidget").setup({})
 		require("mason").setup({
 			ui = {
