@@ -2,6 +2,8 @@ vim.opt.nu = true
 vim.opt.relativenumber = true
 vim.opt.clipboard = "unnamedplus"
 
+vim.g.ts_highlight_log = 1
+
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
