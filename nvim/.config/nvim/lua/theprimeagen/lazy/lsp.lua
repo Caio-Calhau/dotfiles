@@ -16,6 +16,8 @@ return {
 		"stevanmilic/nvim-lspimport",
 	},
 
+	run = "make install_jsregexp",
+
 	config = function()
 		require("conform").setup({
 			formatters_by_ft = {},
