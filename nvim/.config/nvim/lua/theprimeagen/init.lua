@@ -35,16 +35,6 @@ autocmd({ "BufWritePre" }, {
 	command = [[%s/\s\+$//e]],
 })
 
-autocmd("BufEnter", {
-	group = ThePrimeagenGroup,
-	callback = function()
-		if vim.bo.filetype == "zig" then
-			vim.cmd.colorscheme("rose-pine-moon")
-		else
-			vim.cmd.colorscheme("rose-pine-moon")
-		end
-	end,
-})
 
 autocmd("LspAttach", {
 	group = ThePrimeagenGroup,
@@ -64,9 +54,6 @@ autocmd("LspAttach", {
 		end, opts)
 		vim.keymap.set("n", "<leader>vrn", function()
 			vim.lsp.buf.rename()
-		end, opts)
-		vim.keymap.set("i", "<C-h>", function()
-			vim.lsp.buf.signature_help()
 		end, opts)
 		vim.keymap.set("n", "[d", function()
 			vim.diagnostic.goto_next()
