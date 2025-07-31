@@ -1,9 +1,9 @@
-require("theprimeagen.set")
-require("theprimeagen.remap")
-require("theprimeagen.lazy_init")
+require("golira.set")
+require("golira.remap")
+require("golira.lazy_init")
 
 local augroup = vim.api.nvim_create_augroup
-local ThePrimeagenGroup = augroup("ThePrimeagen", {})
+local GoliraGroup = augroup("Golira", {})
 
 local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup("HighlightYank", {})
@@ -30,14 +30,14 @@ autocmd("TextYankPost", {
 })
 
 autocmd({ "BufWritePre" }, {
-	group = ThePrimeagenGroup,
+	group = GoliraGroup,
 	pattern = "*",
 	command = [[%s/\s\+$//e]],
 })
 
 
 autocmd("LspAttach", {
-	group = ThePrimeagenGroup,
+	group = GoliraGroup,
 	callback = function(e)
 		local opts = { buffer = e.buf }
 		vim.keymap.set("n", "gd", function()
