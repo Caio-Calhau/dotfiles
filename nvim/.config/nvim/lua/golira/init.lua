@@ -12,12 +12,6 @@ function R(name)
 	require("plenary.reload").reload_module(name)
 end
 
-vim.filetype.add({
-	extension = {
-		templ = "templ",
-	},
-})
-
 autocmd("TextYankPost", {
 	group = yank_group,
 	pattern = "*",
@@ -34,7 +28,6 @@ autocmd({ "BufWritePre" }, {
 	pattern = "*",
 	command = [[%s/\s\+$//e]],
 })
-
 
 autocmd("LspAttach", {
 	group = GoliraGroup,

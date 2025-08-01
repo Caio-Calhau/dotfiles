@@ -26,4 +26,8 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
+vim.o.laststatus = 3
+vim.o.showmode = false
+vim.o.showmode = false
+
 -- vim.opt.colorcolumn = "80"
