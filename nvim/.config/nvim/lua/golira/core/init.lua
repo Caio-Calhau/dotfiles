@@ -1,6 +1,5 @@
-require("golira.set")
-require("golira.remap")
-require("golira.lazy_init")
+require("golira.core.set")
+require("golira.core.remap")
 
 local augroup = vim.api.nvim_create_augroup
 local GoliraGroup = augroup("Golira", {})
