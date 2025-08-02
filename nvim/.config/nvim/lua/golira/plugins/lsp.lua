@@ -39,11 +39,6 @@ return {
 			"svelte",
 		})
 
-		vim.lsp.enable("eslint", {
-			cmd = { "eslint_d", "vscode-eslint-language-server", "--stdio" },
-			filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-		})
-
 		vim.diagnostic.config({
 			update_in_insert = true,
 			virtual_text = true,
@@ -57,13 +52,9 @@ return {
 			},
 		})
 
-		local null_ls = require("null-ls")
-
-		null_ls.setup({
-			sources = {
-				null_ls.builtins.formatting.prettierd,
-				null_ls.builtins.formatting.prettier,
-			},
+		vim.lsp.enable("eslint", {
+			cmd = { "eslint_d", "vscode-eslint-language-server", "--stdio" },
+			filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
 		})
 
 		require("lspconfig").eslint.setup({
@@ -75,6 +66,7 @@ return {
 		})
 
 		require("fidget").setup({})
+
 		require("mason").setup({
 			ui = {
 				icons = {
@@ -112,6 +104,7 @@ return {
 				"emmet_ls",
 				"pyright",
 			},
+
 			handlers = {
 				["lua_ls"] = function()
 					local lspconfig = require("lspconfig")
