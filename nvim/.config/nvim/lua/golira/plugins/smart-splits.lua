@@ -10,6 +10,8 @@ return {
 			-- for example `10<A-h>` will `resize_left` by `(10 * config.default_amount)`
 			vim.keymap.set("n", "<A-h>", require("smart-splits").resize_left)
 			vim.keymap.set("n", "<A-l>", require("smart-splits").resize_right)
+			vim.keymap.set("n", "<A-j>", require("smart-splits").resize_down)
+			vim.keymap.set("n", "<A-k>", require("smart-splits").resize_up)
 			-- vim.keymap.set('n', '<C-l>', require('smart-splits').move_cursor_right) -- This is temporary because it doesn't work with Snacks Explorer
 			vim.keymap.set("n", "<C-\\>", require("smart-splits").move_cursor_previous)
 			-- swapping buffers between windows
