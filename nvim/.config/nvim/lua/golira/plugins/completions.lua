@@ -30,7 +30,7 @@ return {
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
 					["<C-j>"] = cmp.mapping.select_next_item,
 					["<C-k>"] = cmp.mapping.select_prev_item,
-					["<Tab>"] = cmp.mapping.complete(),
+					["<C-space>"] = cmp.mapping.complete(),
 					["<Esc>"] = cmp.mapping.abort(),
 					["<CR>"] = cmp.mapping.confirm({ select = true }),
 				}),
