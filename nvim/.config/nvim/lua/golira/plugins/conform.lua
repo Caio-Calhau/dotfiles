@@ -8,6 +8,7 @@ return {
 				python = { "isort", "black" },
 				javascript = { "pretierd", "prettier" },
 				typescript = { "prettierd", "prettier" },
+        terraform = { "tflint", "serve" }
 			},
 		})
 	end,
