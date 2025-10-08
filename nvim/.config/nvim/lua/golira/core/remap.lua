@@ -20,25 +20,40 @@ end)
 vim.keymap.set("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
 
 -- greatest remap ever
+-- Paste over selected text without losing the current clipboard content
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
--- next greatest remap ever : asbjornHaland
+-- Copy to system clipboard (works in normal and visual mode)
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
+
+-- Copy whole line to system clipboard (normal mode)
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
+-- Delete without copying to clipboard (normal and visual mode)
 vim.keymap.set({ "n", "v" }, "<leader>d", '"_d')
 
 -- This is going to get me cancelled
 vim.keymap.set("i", "<C-c>", "<Esc>")
 
-vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<leader>f", function()
 	require("conform").format({ bufnr = 0 })
 end)
 
+-- Disable the default 'Q' command (used for Ex mode)
+vim.keymap.set("n", "Q", "<nop>")
+
+-- Jump to next item in quickfix list and center the screen
 vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
+
+-- Jump to previous item in quickfix list and center the screen
 vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+
+-- Jump to next item in location list and center the screen
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
+
+-- Jump to previous item in location list and center the screen
 vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 
+-- Search and replace the word under cursor (with confirmation/editing)
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
