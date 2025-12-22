@@ -1,26 +1,35 @@
+# Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-export ZSH_THEME="robbyrussell"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-if [ -d "$ZSH" ]; then
-    source $ZSH/oh-my-zsh.sh
-else
-    echo "Oh My Zsh directory does not exist"
-fi
+export ANDROID_HOME=/Users/smartly/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 
-source $ZSH/oh-my-zsh.sh
+export DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer"
+
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="robbyrussell"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+HIST_STAMPS="dd.mm.yyyy"
 
 plugins=(
-  git
-  tmux
-  zsh-autosuggestions
+    git
+    zsh-autosuggestions
+    zsh-syntax-highlighting
 )
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+source $ZSH/oh-my-zsh.sh
+alias python='python3'
 
-
-# Add /usr/local/bin to the PATH
-export PATH="$PATH:/usr/local/bin"
-export PATH="$PATH:/opt/nvim/bin"
-export PATH="$PATH:/usr/local/go/bin"
