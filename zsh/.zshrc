@@ -8,8 +8,6 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 
-export DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer"
-
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -30,6 +28,9 @@ plugins=(
     zsh-syntax-highlighting
 )
 
-source $ZSH/oh-my-zsh.sh
 alias python='python3'
+
+export PATH="$PATH:/opt/nvim/bin"
+
+source $ZSH/oh-my-zsh.sh
 
