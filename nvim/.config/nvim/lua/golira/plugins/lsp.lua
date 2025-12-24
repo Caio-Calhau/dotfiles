@@ -52,6 +52,7 @@ return {
 				"pyright",
 				"terraformls",
 				"yamlls",
+				"stylua",
 			}
 
 			for _, server in ipairs(servers) do
