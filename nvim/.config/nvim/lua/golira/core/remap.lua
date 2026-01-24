@@ -1,6 +1,11 @@
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>ee", vim.cmd.Ex)
 
+vim.keymap.set("n", "<C-h", vim.cmd.wincmd({ args = { "h" } }))
+vim.keymap.set("n", "<C-j", vim.cmd.wincmd({ args = { "j" } }))
+vim.keymap.set("n", "<C-k", vim.cmd.wincmd({ args = { "k" } }))
+vim.keymap.set("n", "<C-l", vim.cmd.wincmd({ args = { "l" } }))
+
 vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv")
 
@@ -36,12 +41,6 @@ end)
 
 -- Disable the default 'Q' command (used for Ex mode)
 vim.keymap.set("n", "Q", "<nop>")
-
--- Jump to next item in quickfix list and center the screen
-vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-
--- Jump to previous item in quickfix list and center the screen
-vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
 
 -- Jump to next item in location list and center the screen
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
