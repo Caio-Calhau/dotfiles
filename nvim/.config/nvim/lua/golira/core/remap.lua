@@ -4,20 +4,15 @@ vim.keymap.set("n", "<leader>ee", vim.cmd.Ex)
 vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv")
 
-vim.api.nvim_set_keymap("n", "<leader>tf", "<Plug>PlenaryTestFile", { noremap = false, silent = false })
-
 vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
+
 vim.keymap.set("n", "=ap", "ma=ap'a")
-vim.keymap.set("n", "<leader>zig", "<cmd>LspRestart<cr>")
 vim.keymap.set("n", "<Leader>w", function()
 	require("conform").format({ bufnr = 0 })
 	vim.cmd("write")
 end)
-vim.keymap.set("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
 
 -- greatest remap ever
 -- Paste over selected text without losing the current clipboard content
