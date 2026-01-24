@@ -6,9 +6,14 @@ return {
 			formatters_by_ft = {
 				lua = { "stylua" },
 				python = { "isort", "black" },
-				javascript = { "pretierd", "prettier" },
-				typescript = { "prettierd", "prettier" },
-        terraform = { "tflint", "serve" }
+				javascript = { "prettier" },
+				javascriptreact = { "prettier" },
+				typescript = { "prettier" },
+				typescriptreact = { "prettier" },
+				terraform = { "tflint", "serve" },
+			},
+			default_format_opts = {
+				lsp_format = "fallback",
 			},
 		})
 	end,
