@@ -19,7 +19,7 @@ return {
 		lazy = true,
 		config = function()
 			require("catppuccin").setup({
-				flavor = "frappe",
+				flavor = "mocha",
 				no_italics = true,
 			})
 		end,
@@ -47,7 +47,7 @@ return {
 				},
 			})
 
-			vim.cmd("colorscheme tokyonight")
+			vim.cmd("colorscheme catppuccin")
 		end,
 	},
 }
