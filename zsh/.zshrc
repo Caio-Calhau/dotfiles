@@ -32,5 +32,9 @@ alias python='python3'
 
 export PATH="$PATH:/opt/nvim/bin"
 
+eval "$(direnv hook zsh)"
+
 source $ZSH/oh-my-zsh.sh
 
+
+. "$HOME/.local/bin/env"
