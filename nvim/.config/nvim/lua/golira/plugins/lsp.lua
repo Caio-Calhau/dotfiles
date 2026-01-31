@@ -37,6 +37,7 @@ return {
 				"lua_ls",
 				"pyright",
 				"tsserver",
+				"ts_ls",
 				"html",
 				"terraformls",
 				"yamlls",
