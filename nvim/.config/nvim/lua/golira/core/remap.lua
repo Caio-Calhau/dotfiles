@@ -1,3 +1,18 @@
+local function move_and_center_if_at_bottom(cmd)
+	-- Executa o movimento ignorando mapeamentos (para evitar recursão)
+	vim.cmd("normal! " .. cmd)
+
+	-- Obtém a linha do cursor relativa à janela (1 = topo)
+	local cursor_winline = vim.fn.winline()
+	local win_height = vim.fn.winheight(0)
+	local so = vim.wo.scrolloff or vim.o.scrolloff or 0
+
+	-- Se estiver na região de perigo inferior (menos de 'so' linhas do fundo)
+	if cursor_winline >= win_height - so then
+		vim.cmd("normal! zz") -- centraliza também ignorando mapeamentos
+	end
+end
+
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>ee", vim.cmd.Ex)
 
@@ -9,8 +24,9 @@ vim.keymap.set("n", "<C-l", vim.cmd.wincmd({ args = { "l" } }))
 vim.keymap.set("v", "<A-j>", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "<A-k>", ":m '<-2<CR>gv=gv")
 
-vim.keymap.set("n", "j", "jzz")
-vim.keymap.set("n", "k", "kzz")
+vim.keymap.set("n", "j", function()
+	move_and_center_if_at_bottom("j")
+end)
 
 vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
