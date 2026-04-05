@@ -37,4 +37,4 @@ eval "$(direnv hook zsh)"
 source $ZSH/oh-my-zsh.sh
 
 
-. "$HOME/.local/bin/env"
+# . "$HOME/.local/bin/env"
