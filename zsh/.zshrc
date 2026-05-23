@@ -28,6 +28,17 @@ plugins=(
     zsh-syntax-highlighting
 )
 
+function set_terminal_title() {
+  echo -ne "\033]0;${PWD##*/}\007"
+}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook chpwd set_terminal_title
+
+precmd() {
+  set_terminal_title
+}
+
 alias python='python3'
 
 export PATH="$PATH:/opt/nvim/bin"
