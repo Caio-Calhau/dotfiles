@@ -1,32 +1,127 @@
-# Path to your oh-my-zsh installation.
+# =========================================================
+# Base configuration
+# =========================================================
+
 export ZSH="$HOME/.oh-my-zsh"
+export EDITOR="nvim"
+
+# =========================================================
+# Utility functions
+# =========================================================
+
+path_append() {
+  case ":$PATH:" in
+    *":$1:"*) ;;
+    *) export PATH="${PATH:+"$PATH:"}$1" ;;
+  esac
+}
+
+path_prepend() {
+  case ":$PATH:" in
+    *":$1:"*) ;;
+    *) export PATH="$1${PATH:+":$PATH"}" ;;
+  esac
+}
+
+# =========================================================
+# OS detection
+# =========================================================
+
+OS="$(uname -s)"
+
+# =========================================================
+# Homebrew (macOS)
+# =========================================================
+
+if [[ "$OS" == "Darwin" ]]; then
+  # Apple Silicon
+  if [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  fi
+
+  # Intel Mac fallback
+  if [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
+fi
+
+# =========================================================
+# NVM
+# =========================================================
+
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-export ANDROID_HOME=/Users/smartly/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+  . "$NVM_DIR/nvm.sh"
+fi
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+# =========================================================
+# Android SDK
+# =========================================================
+
+if [[ "$OS" == "Darwin" ]]; then
+  export ANDROID_HOME="$HOME/Library/Android/sdk"
+elif [[ "$OS" == "Linux" ]]; then
+  export ANDROID_HOME="$HOME/Android/Sdk"
+fi
+
+if [[ -n "$ANDROID_HOME" ]]; then
+  path_append "$ANDROID_HOME/emulator"
+  path_append "$ANDROID_HOME/platform-tools"
+  path_append "$ANDROID_HOME/cmdline-tools/latest/bin"
+fi
+
+# =========================================================
+# Additional binaries
+# =========================================================
+
+path_append "$HOME/.local/bin"
+path_append "/usr/local/go/bin"
+
+# Optional standalone Neovim install
+if [[ -d /opt/nvim/bin ]]; then
+  path_append "/opt/nvim/bin"
+fi
+
+# =========================================================
+# direnv
+# =========================================================
+
+if command -v direnv >/dev/null 2>&1; then
+  eval "$(direnv hook zsh)"
+fi
+
+# =========================================================
+# Oh My Zsh
+# =========================================================
+
 ZSH_THEME="robbyrussell"
 
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-HIST_STAMPS="dd.mm.yyyy"
-
 plugins=(
-    git
-    zsh-autosuggestions
-    zsh-syntax-highlighting
+  git
+  zsh-autosuggestions
+  zsh-syntax-highlighting
 )
+
+source "$ZSH/oh-my-zsh.sh"
+
+# =========================================================
+# History
+# =========================================================
+
+HIST_STAMPS="yyyy-mm-dd"
+
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000
+SAVEHIST=10000
+
+setopt HIST_IGNORE_DUPS
+setopt SHARE_HISTORY
+setopt APPEND_HISTORY
+
+# =========================================================
+# Terminal title
+# =========================================================
 
 function set_terminal_title() {
   echo -ne "\033]0;${PWD##*/}\007"
@@ -39,13 +134,43 @@ precmd() {
   set_terminal_title
 }
 
-alias python='python3'
+# =========================================================
+# Aliases
+# =========================================================
 
-export PATH="$PATH:/opt/nvim/bin"
+alias python="python3"
+alias vim="nvim"
 
-eval "$(direnv hook zsh)"
+alias ll="ls -lah"
+alias la="ls -A"
+alias l="ls -CF"
 
-source $ZSH/oh-my-zsh.sh
+alias gs="git status"
+alias gc="git commit"
+alias gp="git push"
 
+alias devclean="$HOME/scripts/dev-clean.sh"
 
-. "$HOME/.local/bin/env"
+# =========================================================
+# WSL detection
+# =========================================================
+
+if grep -qi microsoft /proc/version 2>/dev/null; then
+  export IS_WSL=true
+else
+  export IS_WSL=false
+fi
+
+# =========================================================
+# User-local environment bootstrap
+# =========================================================
+
+if [[ -f "$HOME/.local/bin/env" ]]; then
+  . "$HOME/.local/bin/env"
+fi
+
+# =========================================================
+# Final PATH cleanup (remove duplicates)
+# =========================================================
+
+export PATH="$(printf "%s" "$PATH" | awk -v RS=: '!a[$1]++ { if (NR > 1) printf ":"; printf $1 }')"
