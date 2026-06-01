@@ -1,0 +1,44 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "serper": {
+      "type": "local",
+      "command": ["npx", "-y", "serper-search-scrape-mcp-server"],
+      "environment": {
+        "SERPER_API_KEY": "{env:SERPER_API_KEY}"
+      },
+      "enabled": true
+    },
+    "filesystem": {
+      "type": "local",
+      "command": [
+        "/usr/bin/npx",
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "."
+      ],
+      "enabled": true
+    },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true
+    },
+    "trello": {
+      "type": "local",
+      "command": ["npx", "-y", "@delorenj/mcp-server-trello"],
+      "enabled": true,
+      "environment": {
+        "TRELLO_API_KEY": "{env:TRELLO_API_KEY}",
+        "TRELLO_TOKEN": "{env:TRELLO_TOKEN}"
+      }
+    },
+    "clickup": {
+      "type": "remote",
+      "url": "https://mcp.clickup.com/mcp",
+      "enabled": true
+    }
+  },
+  "command": {},
+  "plugin": ["superpowers@git+https://github.com/LucasNarZ/superpowers.git"]
+}
