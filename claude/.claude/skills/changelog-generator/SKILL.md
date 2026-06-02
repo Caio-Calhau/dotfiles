@@ -1,210 +1,645 @@
----
-name: changelog-generator
-description: Generate and manage CHANGELOG.md following Keep a Changelog format with Semantic Versioning. Use this skill whenever the user mentions changelog, release notes, versioning, wants to document changes between branches, asks to "add changes to changelog", "update changelog for branch X", "promote unreleased to version", or any task involving tracking what changed between dev/hml/main branches. Always use this skill for git diff analysis + changelog authoring workflows.
-license: MIT
-compatibility: opencode
-metadata:
-  audience: maintainers
-  workflow: github
----
+# Changelog Generator Skill
 
-## What I do
-- Generate CHANGELOG.md following Keep a Changelog format
-- Analyze git diffs between branches to extract meaningful changes
-- Manage `[Unreleased]` section for active development
-- Promote unreleased changes to versioned releases when merging to hml/main
-- Apply Semantic Versioning rules (MAJOR.MINOR.PATCH)
+## Purpose
 
-## When to use me
-- "Adicione no changelog as modificações da branch dev"
-- "Update changelog with changes from feature/X"
-- "Promote unreleased to version 1.2.0"
-- Any time someone wants to document what changed between two git refs
+Generate and maintain changelog entries from the current branch changes by analyzing the Git diff against a user-provided base branch.
+
+The skill must update the repository's `CHANGELOG.md` following the configured changelog conventions and Keep a Changelog principles.
 
 ---
 
-## Workflow
+# Workflow
 
-### 1. Dev branch — Adding changes from a branch diff
+## Step 1 - Collect Input
 
-When the user says something like **"add changes from branch X to changelog"**:
+Prompt the user:
 
-**Step 1 — Identify the target branch**
-Extract the branch name from the user's message. If not specified, ask for clarification.
-
-**Step 2 — Get the diff**
-If the current session already captured the diff for the same target branch, reuse that output.
-
-Otherwise, run the following commands to capture the diff between the current branch and the target:
-
-```bash
-git fetch --all --quiet
-
-git log --oneline <target-branch>..HEAD
-git diff <target-branch>...HEAD --stat
-git diff <target-branch>...HEAD
+```text
+Base branch to compare against?
 ```
 
-If the user specifies a base branch explicitly (e.g., "diff against main"), use that instead of HEAD:
-```bash
-git diff <base-branch>...<target-branch> --stat
-git diff <base-branch>...<target-branch>
+Examples:
+
+```text
+origin/dev
+origin/main
+origin/release/3.28
 ```
 
-**Step 3 — Analyze the diff**
-From the diff output, identify:
-- New files added → likely `Added`
-- Deleted files → likely `Removed`
-- Modified files → inspect changes to classify as `Fixed`, `Changed`, `Added`, or `Security`
-- Breaking interface changes (API, public contracts) → flag for MAJOR bump consideration
-- Dependency changes (package.json, go.mod, requirements.txt, etc.) → note if relevant to users
+---
 
-**Step 4 — Write changelog entries**
-Translate the technical diff into human-readable entries following the Entry Style Guidelines below. Place them under `## [Unreleased]` at the top of CHANGELOG.md.
+## Step 2 - Generate Diff
+
+Execute:
+
+```bash
+git diff <base_branch>...HEAD
+```
+
+Store the diff in memory.
+
+Do not create temporary files.
 
 ---
 
-### 2. Merge to hml — Promoting [Unreleased] to a version
+## Step 3 - Analyze Changes
 
-When the user wants to release:
+Analyze the diff and identify:
 
-1. Read the current `[Unreleased]` section
-2. Determine the version bump based on Semantic Versioning Rules below
-3. Replace `## [Unreleased]` with `## [X.Y.Z] - YYYY-MM-DD`
-4. Add a fresh empty `## [Unreleased]` section above it
+- New features
+- Behavior changes
+- Removed functionality
+- Bug fixes
+- API contract changes
+- Payload changes
+- Endpoint changes
+- Validation changes
+- User-visible changes
+
+Ignore:
+
+- Formatting-only changes
+- Variable renames
+- File moves
+- Folder moves
+- Internal refactors without impact
+- Repository structure changes
+- Commit messages
+- File paths
 
 ---
 
-## Git Diff Commands Reference
+# Changelog Pattern Detection
 
-| Goal | Command |
-|------|---------|
-| Commits not yet in base | `git log --oneline <base>..<head>` |
-| File-level summary | `git diff <base>...<head> --stat` |
-| Full diff | `git diff <base>...<head>` |
-| Only staged changes | `git diff --cached` |
-| Since last tag | `git diff $(git describe --tags --abbrev=0)...HEAD` |
+## Existing Changelog
 
-> Use `...` (three dots) for symmetric diff (changes introduced by HEAD relative to the merge-base with base). Use `..` (two dots) for direct range.
+If `CHANGELOG.md` exists:
 
----
+Read the file and detect the pattern from the existing categories.
 
-## CHANGELOG.md Template
+Frontend pattern:
 
-```markdown
-# Changelog
+```md
+### Adicionado
 
-All notable changes to this project will be documented in this file.
+### Modificado
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+### Removido
 
-## [Unreleased]
+### Corrigido
+```
 
+Backend pattern:
+
+```md
 ### Added
-- [New feature 1]
 
 ### Changed
-- [Change 1]
 
 ### Deprecated
-- [Soon-to-be removed feature]
 
 ### Removed
-- [Removed item 1]
 
 ### Fixed
-- [Bug fix 1]
+```
 
-### Security
-- [Security fix 1]
+Continue using the detected pattern for all generated entries.
 
-## [0.1.36] - 2026-03-16
+---
 
-### Fixed
-- Previous version fix
+## Missing Changelog
+
+If `CHANGELOG.md` does not exist:
+
+Create it using the default pattern:
+
+```md
+## [Unreleased]
 
 ### Added
-- Previous feature
-```
 
----
+### Changed
 
-## Promoting Unreleased to Version
+### Deprecated
 
-**Example transformation:**
+### Removed
 
-```markdown
-## [Unreleased]
 ### Fixed
-- Null pointer on empty user list
-
-## [0.1.36] - 2026-03-16
-...
 ```
 
-becomes:
+The default pattern must be used only when no changelog exists.
 
-```markdown
+---
+
+# Repository Patterns
+
+## Backend Pattern
+
+Language:
+
+```text
+English
+```
+
+Categories:
+
+```md
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+```
+
+Category order:
+
+```text
+Added
+Changed
+Deprecated
+Removed
+Fixed
+```
+
+Focus on:
+
+- API behavior
+- Endpoints
+- Payloads
+- Response codes
+- Business rules
+- Contracts
+- Validations
+
+Avoid:
+
+- Lambda names
+- Repository names
+- Terraform resources
+- Internal implementation details
+
+Example:
+
+```md
+### Added
+
+- Added validation to prevent deletion of custom buttons that are still assigned to devices.
+```
+
+---
+
+## Frontend Pattern
+
+Language:
+
+```text
+Portuguese (pt-BR)
+```
+
+Categories:
+
+```md
+### Adicionado
+
+### Modificado
+
+### Removido
+
+### Corrigido
+```
+
+Category order:
+
+```text
+Adicionado
+Modificado
+Removido
+Corrigido
+```
+
+Focus on:
+
+- User-visible behavior
+- Screens
+- Flows
+- Device behavior
+- Synchronization
+- Validation
+- UX changes
+
+Avoid:
+
+- Hook names
+- Component internals
+- Providers
+- Stores
+- MQTT/AppSync implementation details
+- Internal architecture
+
+Example:
+
+```md
+### Corrigido
+
+- Corrigida a atualização das configurações de cenários de acordo com o tipo do dispositivo.
+```
+
+---
+
+## Default Pattern
+
+Language:
+
+```text
+English
+```
+
+Categories:
+
+```md
+### Added
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+```
+
+Category order:
+
+```text
+Added
+Changed
+Deprecated
+Removed
+Fixed
+```
+
+Focus on:
+
+- Functional behavior
+- Public-facing changes
+- Feature impact
+
+Avoid:
+
+- Implementation details
+- Internal architecture
+
+Example:
+
+```md
+### Changed
+
+- Updated configuration handling to improve consistency across integrations.
+```
+
+---
+
+# CHANGELOG.md Handling
+
+## Locate Changelog
+
+Expected file:
+
+```text
+CHANGELOG.md
+```
+
+If the file does not exist:
+
+Create it.
+
+---
+
+# CHANGELOG Update Rules
+
+## Rule 1 - Locate Unreleased
+
+Search for:
+
+```md
+## [Unreleased]
+```
+
+---
+
+## Rule 2 - If Unreleased Does Not Exist
+
+Create the section.
+
+Backend / Default:
+
+```md
 ## [Unreleased]
 
-## [0.1.37] - 2026-03-22
-### Fixed
-- Null pointer on empty user list
+### Added
 
-## [0.1.36] - 2026-03-16
-...
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+```
+
+Frontend:
+
+```md
+## [Unreleased]
+
+### Adicionado
+
+### Modificado
+
+### Removido
+
+### Corrigido
+```
+
+This is the only situation where empty categories may be created.
+
+---
+
+## Rule 3 - If Unreleased Exists
+
+Preserve all existing content.
+
+Never overwrite manually written entries.
+
+Merge new entries into the corresponding category.
+
+---
+
+## Rule 4 - Category Creation
+
+If a category already exists:
+
+Append new entries to it.
+
+If a category does not exist:
+
+Create it only if there is at least one new entry to insert.
+
+Never create empty categories.
+
+Example:
+
+Current:
+
+```md
+## [Unreleased]
+
+### Added
+
+- Added AppSync support.
+```
+
+Generated:
+
+```md
+### Fixed
+
+- Fixed device synchronization.
+```
+
+Result:
+
+```md
+## [Unreleased]
+
+### Added
+
+- Added AppSync support.
+
+### Fixed
+
+- Fixed device synchronization.
+```
+
+Do not create:
+
+```md
+### Changed
+
+### Deprecated
+
+### Removed
+```
+
+unless they contain new entries.
+
+---
+
+## Rule 5 - Preserve Category Order
+
+Backend / Default:
+
+```text
+Added
+Changed
+Deprecated
+Removed
+Fixed
+```
+
+Frontend:
+
+```text
+Adicionado
+Modificado
+Removido
+Corrigido
+```
+
+If a missing category must be created, insert it in the correct position.
+
+---
+
+## Rule 6 - Duplicate Detection
+
+Before inserting a changelog item:
+
+Normalize text by:
+
+- Trimming whitespace
+- Collapsing repeated spaces
+- Ignoring bullet formatting differences
+
+If an equivalent entry already exists:
+
+Do not insert it again.
+
+---
+
+## Rule 7 - No Relevant Changes
+
+If no changelog-worthy changes are detected:
+
+- Do not modify `CHANGELOG.md`
+- Inform the user that no relevant changes were found
+
+Examples of changes to ignore:
+
+- Formatting changes
+- Variable renames
+- Internal refactors without impact
+- Lint fixes
+- File moves
+
+---
+
+# Writing Rules
+
+## Keep a Changelog Principles
+
+Always:
+
+- Focus on impact
+- Focus on behavior
+- Use concise language
+- Use past tense
+- Describe results, not implementation
+
+Never:
+
+- Copy commit messages
+- Mention file names
+- Mention folder names
+- Mention internal methods
+- Mention implementation details
+- Mention code structure
+
+---
+
+## Classification Rules
+
+### Backend / Default
+
+New capability:
+
+```text
+Added
+```
+
+Behavior change:
+
+```text
+Changed
+```
+
+Deprecation:
+
+```text
+Deprecated
+```
+
+Removal:
+
+```text
+Removed
+```
+
+Bug fix:
+
+```text
+Fixed
 ```
 
 ---
 
-## Semantic Versioning Rules
+### Frontend
 
-| Change Type | Version Bump | Example |
-|-------------|-------------|---------|
-| Breaking / incompatible API change | MAJOR (X.0.0) | 1.0.0 → 2.0.0 |
-| New backward-compatible feature | MINOR (0.Y.0) | 1.0.0 → 1.1.0 |
-| Backward-compatible bug fix | PATCH (0.0.Z) | 1.0.0 → 1.0.1 |
-| Deprecation (still works) | MINOR | Mark deprecated |
-| Security fix (no API change) | PATCH | 1.0.0 → 1.0.1 |
+New capability:
 
-When in doubt about bump type, ask the user.
+```text
+Adicionado
+```
 
----
+Behavior change:
 
-## Entry Style Guidelines
+```text
+Modificado
+```
 
-- **Imperative mood**: Add, Fix, Remove, Change, Update, Deprecate
-- **Be specific**: include endpoint names, function names, file paths when relevant
-- **One entry per change**, not per file
-- **Group related changes** into a single entry if they belong together
-- **Reference issues/PRs** when available: `Fix login redirect loop (#312)`
-- **Capitalize first letter**, no trailing period
-- **Omit internal/dev-only changes** (linting config, test setup, CI tweaks) unless they affect consumers
-- **Dependency bumps**: only include if they affect runtime behavior or fix a vulnerability
+Removal:
 
-### Section order in each version block
-1. Added
-2. Changed
-3. Deprecated
-4. Removed
-5. Fixed
-6. Security
+```text
+Removido
+```
 
-Omit empty sections entirely.
+Bug fix:
+
+```text
+Corrigido
+```
 
 ---
 
-## Reading Diff Output — Classification Heuristics
+# Review Step
 
-| Signal in diff | Likely section |
-|----------------|----------------|
-| New route / endpoint / exported function | Added |
-| New config option | Added |
-| Error message / status code fix | Fixed |
-| Null/undefined guard | Fixed |
-| Renamed field in response body | Changed (potential MAJOR if breaking) |
-| Removed exported symbol | Removed (potential MAJOR) |
-| Dependency CVE patch | Security |
-| Interface/type signature change | Changed or MAJOR |
-| Feature flag removed, feature now always on | Changed |
+Before writing to `CHANGELOG.md`:
+
+Display the generated entries.
+
+Example:
+
+```md
+### Added
+
+- Added validation flow for custom button deletion.
+
+### Changed
+
+- Updated button configuration update flow.
+```
+
+Prompt:
+
+```text
+Apply changes to CHANGELOG.md? [Y/n]
+```
+
+Only continue after confirmation.
+
+---
+
+# Update
+
+After approval:
+
+Update `CHANGELOG.md`.
+
+Preserve all existing content.
+
+Only insert the new entries into the proper categories.
+
+---
+
+# Output
+
+After successful update:
+
+Display:
+
+```text
+Pattern detected: Backend
+
+Base branch: origin/dev
+
+Entries added: 3
+
+Categories updated:
+- Added
+- Changed
+```
+
+Do not print the entire changelog unless requested.
