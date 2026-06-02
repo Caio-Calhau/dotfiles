@@ -5,14 +5,22 @@ return {
 		config = function()
 			require("smart-splits").setup()
 
-			-- resizing splits
-			-- these keymaps will also accept a range,
-			-- for example `10<A-h>` will `resize_left` by `(10 * config.default_amount)`
+			local function notify_tmux(enter)
+				if vim.env.TMUX then
+					local cmd = enter
+						and { "tmux", "set-option", "-p", "@pane-is-vim", "1" }
+						or { "tmux", "set-option", "-p", "-u", "@pane-is-vim" }
+					vim.fn.jobstart(cmd)
+				end
+			end
+
+			vim.api.nvim_create_autocmd({ "VimEnter", "VimResume" }, { callback = function() notify_tmux(true) end })
+			vim.api.nvim_create_autocmd({ "VimLeave", "VimSuspend" }, { callback = function() notify_tmux(false) end })
+
 			vim.keymap.set("n", "<A-h>", require("smart-splits").resize_left)
 			vim.keymap.set("n", "<A-l>", require("smart-splits").resize_right)
 			vim.keymap.set("n", "<A-j>", require("smart-splits").resize_down)
 			vim.keymap.set("n", "<A-k>", require("smart-splits").resize_up)
-			-- vim.keymap.set('n', '<C-l>', require('smart-splits').move_cursor_right) -- This is temporary because it doesn't work with Snacks Explorer
 			vim.keymap.set("n", "<C-\\>", require("smart-splits").move_cursor_previous)
 		end,
 	},
