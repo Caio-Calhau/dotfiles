@@ -170,6 +170,15 @@ if [[ -f "$HOME/.local/bin/env" ]]; then
 fi
 
 # =========================================================
+# Kitty shell integration
+# =========================================================
+
+# Only activates inside a Kitty window (not inside tmux, where TERM=tmux-256color)
+if [[ "$TERM" == "xterm-kitty" ]] && [[ -n "$KITTY_INSTALLATION_DIR" ]]; then
+  source "$KITTY_INSTALLATION_DIR/shell-integration/zsh/kitty-integration"
+fi
+
+# =========================================================
 # Final PATH cleanup (remove duplicates)
 # =========================================================
 
