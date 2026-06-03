@@ -192,4 +192,11 @@ fi
 # =========================================================
 
 export PATH="$(printf "%s" "$PATH" | awk -v RS=: '!a[$1]++ { if (NR > 1) printf ":"; printf $1 }')"
-export PATH="$HOME/.rbenv/shims:$PATH"
+
+# =========================================================
+# rbenv
+# =========================================================
+
+if command -v rbenv >/dev/null 2>&1; then
+  eval "$(rbenv init - zsh)"
+fi
