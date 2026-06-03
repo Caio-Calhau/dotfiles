@@ -17,6 +17,7 @@ return {
 						"html",
 						"terraformls",
 						"yamlls",
+						"ruby_lsp",
 					},
 				},
 			},
@@ -41,6 +42,7 @@ return {
 				"html",
 				"terraformls",
 				"yamlls",
+				"ruby_lsp",
 			}
 
 			for _, server in ipairs(servers) do

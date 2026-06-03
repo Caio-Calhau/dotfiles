@@ -13,6 +13,8 @@ return {
 			typescriptreact = { "prettier" },
 
 			terraform = { "terraform_fmt" },
+
+			ruby = { "rubocop" },
 		},
 
 		default_format_opts = {
