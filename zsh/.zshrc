@@ -170,6 +170,15 @@ if [[ -f "$HOME/.local/bin/env" ]]; then
 fi
 
 # =========================================================
+# Keybindings
+# =========================================================
+
+# Shift+Enter inserts a newline instead of executing
+_shift_enter() { LBUFFER+=$'\n' }
+zle -N _shift_enter
+bindkey $'\e[13;2u' _shift_enter
+
+# =========================================================
 # Kitty shell integration
 # =========================================================
 
@@ -183,3 +192,4 @@ fi
 # =========================================================
 
 export PATH="$(printf "%s" "$PATH" | awk -v RS=: '!a[$1]++ { if (NR > 1) printf ":"; printf $1 }')"
+export PATH="$HOME/.rbenv/shims:$PATH"
