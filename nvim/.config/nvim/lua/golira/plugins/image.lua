@@ -1,6 +1,7 @@
 return {
 	{
 		"3rd/image.nvim",
+		enabled = vim.fn.has("wsl") == 0,
 		lazy = true,
 		ft = { "markdown", "vimwiki" },
 		opts = {

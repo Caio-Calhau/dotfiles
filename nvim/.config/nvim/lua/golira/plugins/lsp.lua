@@ -37,7 +37,6 @@ return {
 			local servers = {
 				"lua_ls",
 				"pyright",
-				"tsserver",
 				"ts_ls",
 				"html",
 				"terraformls",

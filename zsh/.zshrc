@@ -80,7 +80,7 @@ path_append "/usr/local/go/bin"
 
 # Optional standalone Neovim install
 if [[ -d /opt/nvim/bin ]]; then
-  path_append "/opt/nvim/bin"
+  path_prepend "/opt/nvim/bin"
 fi
 
 # =========================================================
@@ -196,6 +196,8 @@ export PATH="$(printf "%s" "$PATH" | awk -v RS=: '!a[$1]++ { if (NR > 1) printf 
 # =========================================================
 # rbenv
 # =========================================================
+
+path_prepend "$HOME/.rbenv/bin"
 
 if command -v rbenv >/dev/null 2>&1; then
   eval "$(rbenv init - zsh)"

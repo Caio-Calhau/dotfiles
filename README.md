@@ -34,22 +34,56 @@ This dotfiles project manages configurations for my development environment usin
 
 ## Prerequisites
 
-Install these before running the stow commands.
+Install these before running the stow commands. Each platform has a setup script that automates all steps below — see [Installation](#installation).
 
-### macOS (Homebrew)
+### macOS
+
+> Requires Homebrew for tmux. Install it at https://brew.sh if not present.
+
+**tmux:**
 
 ```bash
-# Core tools
-brew install stow tmux neovim
-
-# Kitty terminal (download from https://sw.kovidgoyal.net/kitty/ or via brew)
-brew install --cask kitty
-
-# Font used by Kitty
-brew install --cask font-jetbrains-mono-nerd-font
+brew install tmux
 ```
 
-### Oh My Zsh (for zsh config)
+**Neovim >= 0.12.2** — Apple Silicon:
+
+```bash
+curl -LO https://github.com/neovim/neovim/releases/download/v0.12.2/nvim-macos-arm64.tar.gz
+sudo rm -rf /opt/nvim
+sudo tar -C /opt -xzf nvim-macos-arm64.tar.gz
+sudo mv /opt/nvim-macos-arm64 /opt/nvim
+sudo xattr -r -d com.apple.quarantine /opt/nvim
+rm nvim-macos-arm64.tar.gz
+```
+
+> For Intel Macs replace `arm64` with `x86_64` in the filename and folder name.
+
+**GNU Stow 2.4.1** — build from source (Perl is pre-installed on macOS, no brew needed):
+
+```bash
+curl -L https://ftp.gnu.org/gnu/stow/stow-2.4.1.tar.gz | tar xz
+cd stow-2.4.1 && ./configure --prefix=/usr/local && make && sudo make install
+cd .. && rm -rf stow-2.4.1
+```
+
+**Kitty terminal** — official installer:
+
+```bash
+curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+```
+
+**JetBrainsMono Nerd Font:**
+
+```bash
+mkdir -p /tmp/jbmono
+curl -L https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.tar.xz \
+  | tar xJ -C /tmp/jbmono
+cp /tmp/jbmono/*.ttf ~/Library/Fonts/
+rm -rf /tmp/jbmono
+```
+
+### Oh My Zsh (both platforms)
 
 ```bash
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -65,19 +99,71 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting \
   ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 ```
 
-### TPM — Tmux Plugin Manager (for tmux config)
+### TPM — Tmux Plugin Manager (both platforms)
 
 ```bash
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 ```
 
-### Linux (Ubuntu/Debian)
+### Linux / WSL (Ubuntu/Debian)
+
+**tmux:**
 
 ```bash
-sudo apt-get install stow tmux neovim
+sudo apt-get install tmux
 ```
 
-> Kitty and the Nerd Font must be installed manually on Linux. See [Kitty docs](https://sw.kovidgoyal.net/kitty/binary/) and [Nerd Fonts releases](https://github.com/ryanoasis/nerd-fonts/releases).
+**Neovim >= 0.12.2:**
+
+```bash
+sudo apt-get remove neovim 2>/dev/null || true
+curl -LO https://github.com/neovim/neovim/releases/download/v0.12.2/nvim-linux-x86_64.tar.gz
+sudo rm -rf /opt/nvim
+sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+sudo mv /opt/nvim-linux-x86_64 /opt/nvim
+rm nvim-linux-x86_64.tar.gz
+```
+
+**GNU Stow 2.4.1** — build from source:
+
+```bash
+sudo apt-get install make perl
+curl -L https://ftp.gnu.org/gnu/stow/stow-2.4.1.tar.gz | tar xz
+cd stow-2.4.1 && ./configure --prefix=/usr/local && make && sudo make install
+cd .. && rm -rf stow-2.4.1
+```
+
+> Kitty and the Nerd Font are not needed inside WSL — install them on the Windows side. See [Kitty docs](https://sw.kovidgoyal.net/kitty/binary/) and [Nerd Fonts releases](https://github.com/ryanoasis/nerd-fonts/releases).
+
+#### LSP runtime prerequisites
+
+Mason installs LSP servers automatically, but some servers require runtimes to be present in PATH first.
+
+**Ruby** (required for `ruby-lsp`):
+
+```bash
+# Build dependencies
+sudo apt-get install -y git curl libssl-dev libreadline-dev zlib1g-dev \
+  autoconf bison patch build-essential libclang-dev libffi-dev libyaml-dev
+
+# Install rbenv + ruby-build
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+
+# Reload shell so rbenv is in PATH, then install Ruby
+source ~/.zshrc
+rbenv install 3.3.0
+rbenv global 3.3.0
+```
+
+After installation, open Neovim and run `:MasonInstall ruby-lsp` (or let Mason do it automatically on next startup).
+
+**Node.js** (required for most JS/TS LSPs — install via nvm which is already configured in the zshrc):
+
+```bash
+nvm install --lts
+nvm use --lts
+```
 
 ## Stow Management
 
@@ -99,30 +185,29 @@ dotfiles/
 
 ## Installation
 
-Run all commands from the root of this repository.
+Clone the repo and run the setup script for your platform. The scripts install all prerequisites and stow the dotfiles in one shot.
 
 ```bash
-# Clone the repo
-git clone https://github.com/caio/dotfiles ~/dotfiles
+git clone https://github.com/caiocalhau/dotfiles ~/dotfiles
 cd ~/dotfiles
 
-# Symlink each config
+# macOS
+./scripts/install-macos.sh
+
+# WSL / Linux
+./scripts/install-wsl.sh
+```
+
+To stow or restow manually:
+
+```bash
+# Symlink a config
 stow tmux
-stow nvim
-stow zsh
-stow kitty
-stow claude
-```
 
-To remove a config (unlink):
-
-```bash
+# Remove a symlink
 stow -D tmux
-```
 
-To restow (useful after adding new files):
-
-```bash
+# Restow (useful after adding new files)
 stow -R tmux
 ```
 
