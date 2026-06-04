@@ -188,7 +188,7 @@ dotfiles/
 Clone the repo and run the setup script for your platform. The scripts install all prerequisites and stow the dotfiles in one shot.
 
 ```bash
-git clone https://github.com/caiocalhau/dotfiles ~/dotfiles
+git clone -b main https://github.com/caiocalhau/dotfiles ~/dotfiles
 cd ~/dotfiles
 
 # macOS
