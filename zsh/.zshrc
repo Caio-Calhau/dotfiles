@@ -76,6 +76,7 @@ fi
 # =========================================================
 
 path_append "$HOME/.local/bin"
+path_append "$HOME/.cargo/bin"
 path_append "/usr/local/go/bin"
 
 # Optional standalone Neovim install

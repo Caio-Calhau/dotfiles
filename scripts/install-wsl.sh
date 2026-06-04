@@ -73,6 +73,23 @@ else
   ok "NVM already installed — skipping"
 fi
 
+# --- Build tools ---
+print "Installing build tools"
+sudo apt-get install -y build-essential
+ok "build-essential installed"
+
+# --- tree-sitter CLI ---
+print "Installing tree-sitter CLI"
+if command -v tree-sitter &>/dev/null; then
+  ok "tree-sitter already installed — skipping"
+else
+  mkdir -p "$HOME/.local/bin"
+  curl -fsSL "https://github.com/tree-sitter/tree-sitter/releases/latest/download/tree-sitter-linux-x64.gz" \
+    | gunzip > "$HOME/.local/bin/tree-sitter"
+  chmod +x "$HOME/.local/bin/tree-sitter"
+  ok "tree-sitter $("$HOME/.local/bin/tree-sitter" --version)"
+fi
+
 # --- Stow dotfiles ---
 print "Stowing dotfiles from $DOTFILES_DIR"
 cd "$DOTFILES_DIR"

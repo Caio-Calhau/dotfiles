@@ -102,6 +102,11 @@ else
   ok "NVM already installed — skipping"
 fi
 
+# --- tree-sitter CLI ---
+print "Installing tree-sitter CLI"
+brew install tree-sitter
+ok "tree-sitter $(tree-sitter --version)"
+
 # --- Stow dotfiles ---
 print "Stowing dotfiles from $DOTFILES_DIR"
 cd "$DOTFILES_DIR"
