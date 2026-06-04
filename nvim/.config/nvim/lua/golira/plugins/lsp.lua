@@ -17,6 +17,7 @@ return {
 						"html",
 						"terraformls",
 						"yamlls",
+						"ruby_lsp",
 					},
 				},
 			},
@@ -36,11 +37,11 @@ return {
 			local servers = {
 				"lua_ls",
 				"pyright",
-				"tsserver",
 				"ts_ls",
 				"html",
 				"terraformls",
 				"yamlls",
+				"ruby_lsp",
 			}
 
 			for _, server in ipairs(servers) do
