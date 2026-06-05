@@ -1,6 +1,6 @@
 # My Dotfiles
 
-A personal project to backup and document my configurations (dotfiles) for tmux, nvim, zsh, kitty, and Claude Code. This repository serves as both a backup of my settings across machines and a learning history of my configuration journey.
+A personal project to backup and document my configurations (dotfiles) for tmux, nvim, zsh, kitty, Claude Code, and OpenCode. This repository serves as both a backup of my settings across machines and a learning history of my configuration journey.
 
 ## Table of Contents
 
@@ -21,6 +21,7 @@ This dotfiles project manages configurations for my development environment usin
 - **zsh:** Oh My Zsh with autosuggestions, syntax highlighting, NVM, direnv, and Kitty shell integration.
 - **kitty:** GPU-accelerated terminal with catppuccin-mocha theme, JetBrainsMono Nerd Font, and OSC 52 clipboard.
 - **claude:** Claude Code configuration including a custom `CLAUDE.md`, slash commands, subagents, and skills.
+- **opencode:** OpenCode configuration including `AGENTS.md`, slash commands, subagents, MCP servers, and the superpowers plugin.
 
 ## Tools
 
@@ -31,6 +32,7 @@ This dotfiles project manages configurations for my development environment usin
 | `zsh`   | `~/.zshrc`                      | Zsh config with Oh My Zsh            |
 | `kitty` | `~/.config/kitty/`              | Kitty terminal config + theme        |
 | `claude`| `~/.claude/`                    | Claude Code agents, commands, skills |
+| `opencode` | `~/.config/opencode/`        | OpenCode agents, commands, MCP, plugins |
 
 ## Prerequisites
 
@@ -65,8 +67,10 @@ dotfiles/
 │   └── .zshrc                   → ~/.zshrc
 ├── kitty/
 │   └── .config/kitty/           → ~/.config/kitty/
-└── claude/
-    └── .claude/                 → ~/.claude/
+├── claude/
+│   └── .claude/                 → ~/.claude/
+└── opencode/
+    └── .config/opencode/        → ~/.config/opencode/
 ```
 
 ## Installation
@@ -76,7 +80,7 @@ Clone the repo and stow the packages:
 ```bash
 git clone -b main https://github.com/caiocalhau/dotfiles ~/dotfiles
 cd ~/dotfiles
-stow tmux nvim zsh kitty claude
+stow tmux nvim zsh kitty claude opencode
 ```
 
 To stow or restow individually:
@@ -153,6 +157,17 @@ Stowing the `claude` folder places custom configuration under `~/.claude/`:
 - **agents/** — specialized subagents (architect, bug-fixer, pr-review, etc.).
 - **commands/** — custom slash commands (`/create-pr`, `/create-resume`, `/execute-task`, `/quick-task`).
 - **skills/** — reusable skill definitions for workflows and templates.
+
+### opencode
+
+Stowing the `opencode` folder places custom configuration under `~/.config/opencode/`:
+
+- **AGENTS.md** — global coding and behavior guidelines (equivalent to `CLAUDE.md` in Claude Code).
+- **agents/** — specialized subagents (architect, bug-fixer, pr-review, etc.).
+- **commands/** — custom slash commands (`/create-pr`, `/create-resume`, `/execute-task`, `/quick-task`).
+- **opencode.json** — main config: MCP servers (context7, GitHub) and the superpowers plugin.
+
+To link your account, run `/connect` inside OpenCode and follow the browser OAuth flow. Set `GITHUB_PAT` in your environment for the GitHub MCP server.
 
 ## Contribution
 
