@@ -6,7 +6,7 @@ return {
 	config = function()
 		require("nvim-treesitter").setup()
 
-		require("nvim-treesitter").install({
+		require("nvim-treesitter.install").install({
 			"vimdoc",
 			"javascript",
 			"typescript",
