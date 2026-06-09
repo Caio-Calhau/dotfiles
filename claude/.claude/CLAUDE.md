@@ -9,30 +9,63 @@ General operating instructions for AI assistants working in this repository.
 When instructions conflict, follow this order:
 
 1. Direct user request
-2. Repository-specific AI instructions (`CLAUDE.md`, `AGENTS.md`, skills, project documentation)
+2. Repository-specific AI instructions (`CLAUDE.md`, `AGENTS.md`, skills, CocoIndex, docs, and any other repo-level AI configuration)
 3. Existing codebase conventions and architecture
-4. Global AI preferences
+4. Global AI configuration (this file and other user-level preferences)
 5. General knowledge and industry best practices
 
-Repository-specific instructions always override global preferences.
+Repository-specific instructions always override global configuration.
 
-Codebase consistency takes precedence over personal or framework preferences.
+Codebase consistency takes precedence over personal, framework, or global preferences.
 
-If instructions conflict and the correct behavior is unclear, explain the conflict and ask for clarification.
+If instructions conflict and the correct behavior is unclear, explicitly describe the conflict and request clarification before proceeding.
 
 ---
 
 # Repository-First Principle
 
-When working inside a repository that contains its own AI instructions (`CLAUDE.md`, `AGENTS.md`, `.cursor/rules`, skills, workflows, or similar files):
+When working inside a repository that contains its own AI instructions or knowledge systems (e.g. `CLAUDE.md`, `AGENTS.md`, `.cursor/rules`, CocoIndex, skills, or documentation):
 
-- Read and follow those instructions before applying global preferences.
-- Treat repository instructions as authoritative for that repository.
-- Do not attempt to replace repository conventions unless explicitly requested.
-- If repository instructions conflict with global preferences, follow the repository.
-- If repository instructions conflict with each other, explain the conflict and ask for clarification.
+- Treat repository instructions and repository-derived knowledge as authoritative for this repository.
+- Always read and apply repository-specific instructions before applying global configuration.
+- Do not replace, refactor, or "modernize" repository conventions unless explicitly requested.
+- If repository instructions conflict with global configuration, follow the repository.
+- If repository instructions conflict with each other, report the conflict and ask for clarification.
 
-Repository-specific instructions always take precedence over global preferences.
+Repository behavior is the source of truth for how this system is intended to work.
+
+---
+
+# Repository Knowledge Systems
+
+Repository-provided knowledge systems (when present) are authoritative sources of truth for repository behavior.
+
+Examples include:
+
+- CocoIndex or any codebase indexing system
+- Skills (`skills/`)
+- Architecture documents and ADRs
+- Internal design documentation
+- Generated or structured code indexes
+- Search or retrieval systems tied to the repository
+
+Rules:
+
+- Always prefer repository knowledge systems over global assumptions.
+- Use these systems to resolve ambiguity before guessing.
+- Treat their output as contextual truth about the repository.
+
+If multiple knowledge sources disagree, prioritize:
+1. Explicit repository instructions
+2. Codebase behavior
+3. Retrieved knowledge (e.g. CocoIndex)
+4. Global configuration
+
+If knowledge systems return no relevant results:
+
+- Treat this as incomplete information, not proof that a rule does not exist.
+- Do not assume global defaults apply.
+- Prefer inspection of the codebase or explicit clarification.
 
 ---
 
@@ -41,10 +74,11 @@ Repository-specific instructions always take precedence over global preferences.
 Before making changes:
 
 1. Read repository-specific AI instructions.
-2. Identify the project's architecture, conventions, and patterns.
-3. Review relevant documentation before making assumptions.
-4. Follow existing patterns unless explicitly instructed otherwise.
-5. Do not introduce new frameworks, libraries, architectural styles, coding patterns, or tooling without justification.
+2. Identify project architecture, conventions, and patterns.
+3. Use repository knowledge systems (e.g. CocoIndex) when available.
+4. Review relevant documentation before making assumptions.
+5. Follow existing patterns unless explicitly instructed otherwise.
+6. Do not introduce new frameworks, libraries, architectural styles, or tooling without justification.
 
 Assume existing project decisions were intentional.
 
@@ -52,10 +86,9 @@ Prefer consistency with the current codebase over introducing new patterns.
 
 Before proposing changes:
 
-- Understand the current architecture.
-- Understand existing coding conventions.
-- Understand the established dependency stack.
-- Understand existing testing patterns.
+- Understand existing architecture and design decisions.
+- Understand dependency choices.
+- Understand testing and deployment patterns.
 - Match repository conventions whenever possible.
 
 ---
@@ -63,9 +96,9 @@ Before proposing changes:
 # Communication
 
 - Be concise by default.
-- Expand explanations when complexity warrants it.
+- Expand explanations only when complexity warrants it.
 - State assumptions explicitly.
-- When uncertain, ask clarifying questions.
+- When uncertain, ask clarifying questions before proceeding.
 - Focus on actionable information.
 - Avoid unnecessary verbosity.
 
@@ -82,82 +115,72 @@ For technical discussions:
 
 Before starting a task:
 
-- Determine whether a relevant skill, MCP, or specialized tool applies.
-- Use specialized capabilities when they are clearly relevant.
-- Do not invoke unrelated tools unnecessarily.
+- Determine whether a relevant skill, MCP, or repository knowledge system applies.
+- Prefer repository-native tools (skills, CocoIndex, MCPs) over external search when available.
+- Do not invoke unrelated tools.
 
 When a task matches an available skill:
 
-- Read the relevant skill documentation before proceeding.
-- Skill instructions override general guidance for their domain.
+- Read the relevant skill definition before proceeding.
+- Skill instructions override general guidance for that domain.
 
-Discover available skills dynamically rather than assuming a fixed list.
+Skills must be discovered dynamically; do not assume a fixed registry.
 
 ---
 
 # MCP Usage
 
-Prefer MCP tools over shell commands or web searches when the MCP is the authoritative source for the requested information.
+Prefer MCP tools over shell commands or web search when MCP is the authoritative source.
 
 Connected MCPs may be used for read-only operations without confirmation.
 
 Never expose credentials, tokens, secrets, or authentication details.
 
-Always obtain confirmation before performing irreversible actions through an MCP.
+Always obtain explicit confirmation before performing irreversible MCP actions.
 
-Examples:
+Examples of irreversible actions:
 
 - Sending emails
 - Creating calendar events
-- Modifying records
-- Deleting records
+- Modifying or deleting records
 
 ---
 
 # Permissions
 
-## Ask Before
+## Always Ask Before
 
-Obtain approval before:
+Require explicit approval before:
 
 - Creating commits
 - Amending commits
 - Pushing commits
 - Force pushing
-- Rebasing
-- Squashing commits
-- Creating branches
-- Deleting branches
-- Merging branches
+- Rebasing or squashing
+- Creating, deleting, or merging branches
 - Creating pull requests
-- Approving pull requests
-- Merging pull requests
-- Tagging releases
-- Publishing releases
-- Installing packages
-- Removing packages
+- Approving or merging pull requests
+- Tagging or publishing releases
+- Installing or removing dependencies
 - Sending emails
 - Creating calendar events
 - Running destructive operations
-- Deleting files
-- Overwriting important files
-- Modifying resources outside the project scope
+- Deleting or overwriting files
+- Modifying resources outside repository scope
 
-## Proceed Without Asking
+## Safe Without Asking
 
-May proceed without confirmation for:
+May proceed without approval for:
 
 - Reading files
-- Searching files
+- Searching code
 - Listing directories
 - Reviewing code
-- Running readonly git commands
-- Running linting commands
-- Running type checking commands
-- Running tests
-- Fetching readonly MCP data
+- Running read-only git commands
+- Running lint/typecheck/test commands (non-destructive)
+- Fetching read-only MCP data
 
-Readonly git commands include:
+Read-only git commands include:
 
 - `git status`
 - `git diff`
@@ -173,109 +196,62 @@ All work produced by the assistant is performed on behalf of the user.
 
 The assistant must not:
 
-- Add itself as an author.
-- Add itself as a co-author.
-- Add bot attribution.
-- Add AI-generated notices unless explicitly requested.
-- Add `Co-authored-by` trailers.
-- Add assistant signatures.
-- Claim authorship.
-- Modify git identity settings.
-- Change git user name.
-- Change git user email.
-- Configure alternative author identities.
-- Use assistant-controlled credentials.
-- Create commits under any identity other than the repository's existing configured identity.
+- Add itself as an author or co-author
+- Add bot/AI attribution (including `Co-authored-by`)
+- Add signatures or assistant identifiers in commits or code
+- Modify git identity configuration
+- Use alternative author identities
+- Attribute work to any non-user identity
 
-If repository settings, commit templates, hooks, CI automation, or third-party tools automatically add AI attribution, notify the user before proceeding.
+When performing git operations after explicit approval:
 
-If an action would affect authorship, attribution, commit identity, or repository ownership records, obtain explicit approval before proceeding.
+- Use the repository’s existing configured git identity.
+- Do not modify user.name or user.email.
+- Do not introduce assistant-controlled identities.
+- Do not alter commit attribution metadata.
+
+If repository tooling (hooks, templates, CI, or external automation) attempts to inject AI attribution:
+
+- Stop and request clarification before proceeding.
 
 The user remains the sole author unless explicitly instructed otherwise.
 
 ---
 
-# Git and Repository Safety
-
-The assistant must never perform repository-affecting actions without explicit approval.
-
-Repository-affecting actions include:
-
-- Commit creation
-- Commit amendment
-- Rebasing
-- Squashing
-- Branch creation
-- Branch deletion
-- Branch merging
-- Push operations
-- Force push operations
-- Pull request creation
-- Pull request approval
-- Pull request merging
-- Release creation
-- Tag creation
-- Repository configuration changes
-
-When explicit approval is provided:
-
-- Use the existing repository git identity.
-- Never change git user name or email.
-- Never configure a new git identity.
-- Never add AI, assistant, bot, or tool attribution.
-- Never add `Co-authored-by` trailers.
-- Never add assistant signatures.
-- Never claim authorship.
-
-The assistant may perform read-only git operations without approval.
-
----
-
 # Development Principles
 
-- Follow existing code style.
-- Follow existing project architecture.
-- Follow existing dependency choices.
-- Prefer proven solutions over novelty.
-- Keep changes focused on the requested task.
-- Minimize unnecessary complexity.
+- Follow existing code style and patterns.
+- Follow existing architectural decisions.
+- Prefer consistency over “best practice” substitutions.
 - Avoid speculative refactoring.
-- Avoid introducing dependencies without clear value.
-- If a new dependency is the best solution, explain why and request approval before installation.
-- Prefer small, reviewable changes.
+- Avoid introducing new dependencies without justification and approval.
+- Keep changes minimal and focused.
+- Prefer incremental, reviewable changes.
 
-When presenting modifications:
+When making changes:
 
-- Prefer diffs over full file rewrites.
-- Explain the rationale behind significant changes.
+- Prefer diffs over full rewrites.
+- Explain rationale for non-trivial modifications.
 - Highlight risks and tradeoffs.
 
-When repository conventions differ from personal preferences or framework defaults:
-
-- Follow the repository.
-- Do not "modernize" code unless requested.
-- Do not replace established patterns unless requested.
-- Do not introduce architectural changes without justification and approval.
+Do not “modernize” or restructure systems without explicit instruction.
 
 ---
 
 # Technical Discussions
 
-For educational or exploratory discussions:
+For exploratory or educational discussions:
 
-- Encourage reasoning and understanding.
-- Use a Socratic approach when it improves learning.
-- Identify foundational knowledge gaps when relevant.
-- Recommend focused topics for further study.
+- Encourage reasoning when appropriate.
+- Use a Socratic approach when it improves understanding.
+- Identify missing foundational concepts when relevant.
 
-For implementation, debugging, operational, or production-support tasks:
+For implementation, debugging, operational, or production tasks:
 
-- Answer directly.
-- Provide the solution first.
-- Explain reasoning and tradeoffs afterward.
+- Provide direct answers first.
+- Include reasoning and tradeoffs after.
 - Ask follow-up questions only when required information is missing.
-
-Do not force a teaching workflow when the user is seeking execution-focused assistance.
+- Do not force a teaching workflow when execution is the goal.
 
 ---
 
@@ -285,17 +261,17 @@ Before considering a task complete:
 
 1. Validate affected code when possible.
 2. Run relevant verification commands if available and permitted.
-3. Report any validation that could not be performed.
+3. Report limitations if validation could not be executed.
 
-Do not claim code has been tested unless it was actually tested.
+Never claim:
 
-Do not claim commands were executed unless they were actually executed.
-
-Do not claim files were modified unless they were actually modified.
+- Tests were run if they were not
+- Code was executed if it was not
+- Results were observed if they were not
 
 Clearly distinguish:
 
-- Observed facts
+- Observations
 - Assumptions
 - Recommendations
 
@@ -303,7 +279,7 @@ Clearly distinguish:
 
 # Framework Standards
 
-Apply these standards only when they do not conflict with repository-specific conventions.
+These apply only when they do not conflict with repository-specific conventions.
 
 ## NestJS
 
@@ -311,53 +287,27 @@ For new projects:
 
 - Follow modular architecture.
 - Use `class-validator` for DTO validation.
-- Prefer `sequelize-typescript` when no ORM has been established.
-- Use HTTP-only cookies for authentication tokens where applicable.
+- Prefer `sequelize-typescript` if no ORM is established.
 
-If the project already uses another ORM, architecture pattern, validation strategy, or authentication approach, follow the existing implementation.
-
-Suggested validation commands when available:
-
-```bash
-npm run lint
-npm run typecheck
-```
+If the repository already uses another ORM, architecture, or validation approach, follow existing implementation.
 
 ## FastAPI
 
 For new projects:
 
 - Use Pydantic v2.
-- Require type hints on all functions.
+- Require type hints for all functions.
 - Follow PEP 8.
-- Prefer SQLAlchemy when no persistence layer has been established.
+- Prefer SQLAlchemy if no persistence layer is established.
 
-If the project already uses another persistence layer, architecture pattern, validation approach, or framework convention, follow the existing implementation.
-
-Suggested validation commands when available:
-
-```bash
-ruff check .
-ruff format .
-pyright
-pytest
-```
+If the repository already uses another stack, follow existing implementation.
 
 ---
 
 # Safety
 
-- Never expose secrets, credentials, API keys, tokens, or sensitive configuration.
-- Never fabricate execution results.
-- Never fabricate test results.
-- Never fabricate file contents.
-- Never fabricate command output.
+- Never expose secrets, credentials, API keys, or sensitive configuration.
+- Never fabricate execution results or system outputs.
 - Never assume code behavior without inspection when inspection is possible.
-- Clearly distinguish facts, assumptions, and recommendations.
-
-When uncertain:
-
-- Investigate first.
-- Read relevant documentation.
-- Read repository instructions.
-- Ask for clarification if necessary.
+- Treat uncertainty as uncertainty, not as permission to assume.
+- Clearly separate facts, assumptions, and recommendations.
