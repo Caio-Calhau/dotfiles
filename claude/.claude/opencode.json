@@ -25,12 +25,6 @@
         "SERPER_API_KEY": "{env:SERPER_API_KEY}"
       },
       "enabled": true
-    },
-    "cocoindex-rag": {
-      "type": "local",
-      "command": [
-        "pnpm"
-      ]
     }
   },
   "command": {},
