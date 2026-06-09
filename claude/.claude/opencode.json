@@ -16,11 +16,21 @@
     },
     "serper": {
       "type": "local",
-      "command": ["npx", "-y", "serper-search-scrape-mcp-server"],
+      "command": [
+        "npx",
+        "-y",
+        "serper-search-scrape-mcp-server"
+      ],
       "environment": {
         "SERPER_API_KEY": "{env:SERPER_API_KEY}"
       },
       "enabled": true
+    },
+    "cocoindex-rag": {
+      "type": "local",
+      "command": [
+        "pnpm"
+      ]
     }
   },
   "command": {},
