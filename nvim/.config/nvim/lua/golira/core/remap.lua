@@ -42,6 +42,8 @@ end)
 -- Disable the default 'Q' command (used for Ex mode)
 vim.keymap.set("n", "Q", "<nop>")
 
+vim.api.nvim_create_user_command("Q", "q", {})
+
 -- Jump to next item in location list and center the screen
 vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
 
