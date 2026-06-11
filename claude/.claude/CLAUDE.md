@@ -128,6 +128,18 @@ Skills must be discovered dynamically; do not assume a fixed registry.
 
 ---
 
+# Skills
+
+## PR Generator
+
+When the user asks to create, generate, or open a Pull Request — in any phrasing (e.g. "create a PR", "generate the PR", "open a PR", "make a PR") — invoke the `pr-generator` skill before doing anything else.
+
+The skill handles: upfront intake (language, base branch, task URL, reviewers), repository analysis, validation, PR description generation, and running `gh pr create`.
+
+Do not generate a PR description manually or run `gh pr create` without going through this skill.
+
+---
+
 # MCP Usage
 
 Prefer MCP tools over shell commands or web search when MCP is the authoritative source.
