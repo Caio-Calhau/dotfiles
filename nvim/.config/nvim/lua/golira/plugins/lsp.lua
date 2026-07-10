@@ -13,6 +13,7 @@ return {
 					ensure_installed = {
 						"lua_ls",
 						"pyright",
+						"ruff",
 						"ts_ls",
 						"html",
 						"terraformls",
@@ -37,6 +38,7 @@ return {
 			local servers = {
 				"lua_ls",
 				"pyright",
+				"ruff",
 				"ts_ls",
 				"html",
 				"terraformls",
@@ -49,6 +51,19 @@ return {
 					capabilities = capabilities,
 				})
 			end
+
+			local util = require("lspconfig.util")
+			local python_root = function(fname)
+				return util.root_pattern(".git")(fname) or util.root_pattern("pyproject.toml")(fname)
+			end
+
+			vim.lsp.config("pyright", {
+				root_dir = python_root,
+			})
+
+			vim.lsp.config("ruff", {
+				root_dir = python_root,
+			})
 
 			-- vim.keymap.set("n", "K", vim.lsp.buf.hover)
 			vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition)
