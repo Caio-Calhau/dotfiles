@@ -53,8 +53,10 @@ return {
 			end
 
 			local util = require("lspconfig.util")
-			local python_root = function(fname)
-				return util.root_pattern(".git")(fname) or util.root_pattern("pyproject.toml")(fname)
+			local python_root = function(bufnr, on_dir)
+				local fname = vim.api.nvim_buf_get_name(bufnr)
+				local dir = util.root_pattern(".git")(fname) or util.root_pattern("pyproject.toml")(fname)
+				on_dir(dir)
 			end
 
 			vim.lsp.config("pyright", {
