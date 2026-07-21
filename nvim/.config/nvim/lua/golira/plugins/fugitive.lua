@@ -9,7 +9,7 @@ return {
 					return
 				end
 			end
-			vim.cmd("horizontal Git | horizontal resize 30")
+			vim.cmd("horizontal Git | horizontal resize 15")
 		end
 
 		vim.keymap.set("n", "<leader>gs", toggle_fugitive)
