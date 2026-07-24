@@ -59,10 +59,6 @@ return {
 				on_dir(dir)
 			end
 
-			vim.lsp.config("pyright", {
-				root_dir = python_root,
-			})
-
 			vim.lsp.config("ruff", {
 				root_dir = python_root,
 			})
