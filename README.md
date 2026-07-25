@@ -1,6 +1,6 @@
 # My Dotfiles
 
-A personal project to backup and document my configurations (dotfiles) for tmux, nvim, zsh, kitty, Claude Code, and OpenCode. This repository serves as both a backup of my settings across machines and a learning history of my configuration journey.
+A personal project to backup and document my configurations (dotfiles) for tmux, nvim, zsh, kitty, Claude Code, Codex, and OpenCode. This repository serves as both a backup of my settings across machines and a learning history of my configuration journey.
 
 ## Table of Contents
 
@@ -21,6 +21,7 @@ This dotfiles project manages configurations for my development environment usin
 - **zsh:** Oh My Zsh with autosuggestions, syntax highlighting, NVM, direnv, and Kitty shell integration.
 - **kitty:** GPU-accelerated terminal with catppuccin-mocha theme, JetBrainsMono Nerd Font, and OSC 52 clipboard.
 - **claude:** Claude Code configuration including a custom `CLAUDE.md`, slash commands, subagents, and skills.
+- **codex:** Codex global instructions, user configuration, and reusable skills.
 - **opencode:** OpenCode configuration including `AGENTS.md`, slash commands, subagents, MCP servers, and the superpowers plugin.
 
 ## Tools
@@ -32,6 +33,7 @@ This dotfiles project manages configurations for my development environment usin
 | `zsh`   | `~/.zshrc`                      | Zsh config with Oh My Zsh            |
 | `kitty` | `~/.config/kitty/`              | Kitty terminal config + theme        |
 | `claude`| `~/.claude/`                    | Claude Code agents, commands, skills |
+| `codex` | `~/.codex/`, `~/.agents/skills/` | Codex instructions, config, skills |
 | `opencode` | `~/.config/opencode/`        | OpenCode agents, commands, MCP, plugins |
 
 ## Prerequisites
@@ -69,6 +71,9 @@ dotfiles/
 │   └── .config/kitty/           → ~/.config/kitty/
 ├── claude/
 │   └── .claude/                 → ~/.claude/
+├── codex/
+│   ├── .codex/                  → ~/.codex/
+│   └── .agents/skills/          → ~/.agents/skills/
 └── opencode/
     └── .config/opencode/        → ~/.config/opencode/
 ```
@@ -81,6 +86,7 @@ Clone the repo and stow the packages:
 git clone -b main https://github.com/caiocalhau/dotfiles ~/dotfiles
 cd ~/dotfiles
 stow tmux nvim zsh kitty claude opencode
+stow --no-folding codex
 ```
 
 To stow or restow individually:
@@ -94,6 +100,9 @@ stow -D tmux
 
 # Restow (useful after adding new files)
 stow -R tmux
+
+# Keep Codex runtime state outside the dotfiles repository
+stow -R --no-folding codex
 ```
 
 ## Usage
@@ -157,6 +166,14 @@ Stowing the `claude` folder places custom configuration under `~/.claude/`:
 - **agents/** — specialized subagents (architect, bug-fixer, pr-review, etc.).
 - **commands/** — custom slash commands (`/create-pr`, `/create-resume`, `/execute-task`, `/quick-task`).
 - **skills/** — reusable skill definitions for workflows and templates.
+
+### codex
+
+Stowing the `codex` folder places stable Codex configuration while leaving runtime state and credentials local:
+
+- **`~/.codex/AGENTS.md`** — global working agreements and coding preferences.
+- **`~/.codex/config.toml`** — durable user configuration.
+- **`~/.agents/skills/`** — Codex-native changelog, PR, and teaching skills.
 
 ### opencode
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Generator"
+  short_description: "Validate changes and prepare a pull request"
+  default_prompt: "Use $pr-generator to validate my changes and prepare a pull request."

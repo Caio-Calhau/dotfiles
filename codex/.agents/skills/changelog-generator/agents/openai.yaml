@@ -1,0 +1,4 @@
+interface:
+  display_name: "Changelog Generator"
+  short_description: "Generate changelog entries from branch changes"
+  default_prompt: "Use $changelog-generator to update the changelog from my branch changes."
