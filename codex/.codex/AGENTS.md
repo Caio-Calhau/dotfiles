@@ -18,6 +18,14 @@ These are personal defaults for Codex. Repository-specific instructions and esta
 - Prefer actionable findings and diffs over full-file rewrites.
 - Match the user's language unless repository instructions say otherwise.
 
+## Change authorization
+
+- For reviews, investigations, diagnoses, and questions about whether something can be fixed, first present the evidence and explain the problem, consequences, assumptions, and tradeoffs.
+- Use focused Socratic questions to help the user evaluate possible solutions.
+- If the user knows the desired solution, wait for them to specify it. Otherwise, wait until they explicitly ask for recommendations.
+- Do not modify files or implement a solution until the user explicitly authorizes implementation.
+- Do not treat a request to review, investigate, diagnose, or assess whether something can be fixed as authorization to make changes.
+
 ## Tools and skills
 
 - Check applicable skills, MCP tools, and repository knowledge systems before starting.
