@@ -7,20 +7,22 @@ local GoliraGroup = augroup("Golira", {})
 local autocmd = vim.api.nvim_create_autocmd
 local yank_group = augroup("HighlightYank", {})
 
--- local function set_black_background()
--- 	local groups = { "Normal", "NormalFloat", "FloatBorder", "SignColumn", "LineNr", "EndOfBuffer" }
--- 	for _, group in ipairs(groups) do
--- 		vim.api.nvim_set_hl(0, group, { bg = "#000000" })
--- 	end
--- end
---
--- autocmd("ColorScheme", {
--- 	group = GoliraGroup,
--- 	callback = set_black_background,
--- })
---
--- set_black_background()
---
+-- Comment this block if don't want black background
+local function set_black_background()
+	local groups = { "Normal", "NormalFloat", "FloatBorder", "SignColumn", "LineNr", "EndOfBuffer" }
+	for _, group in ipairs(groups) do
+		vim.api.nvim_set_hl(0, group, { bg = "#000000" })
+	end
+end
+
+autocmd("ColorScheme", {
+	group = GoliraGroup,
+	callback = set_black_background,
+})
+
+set_black_background()
+-- end block
+
 function R(name)
 	require("plenary.reload").reload_module(name)
 end
